@@ -33,14 +33,17 @@ if __name__ == "__main__":
     # Index documents with unique IDs
     corpus = parsedData.zipWithIndex().map(lambda x: [x[1], x[0]]).cache()
 
+    # Choose topic quantity (in this case 3)
+    TOPIC_QUANTITY = 3
+    
     # Cluster the documents into three topics using LDA
-    ldaModel = LDA.train(corpus, k=3)
+    ldaModel = LDA.train(corpus, k=TOPIC_QUANTITY)
 
     # Output topics. Each is a distribution over words (matching word count vectors)
     print("Learned topics (as distributions over vocab of " + str(ldaModel.vocabSize())
           + " words):")
     topics = ldaModel.topicsMatrix()
-    for topic in range(3):
+    for topic in range(TOPIC_QUANTITY):
         print("Topic " + str(topic) + ":")
         for word in range(0, ldaModel.vocabSize()):
             print(" " + str(topics[word][topic]))
